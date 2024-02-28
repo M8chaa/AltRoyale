@@ -1,5 +1,4 @@
 import streamlit as st
-from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
