@@ -23,11 +23,11 @@ def getSheetData():
     return df
 
 
-st.set_page_config(page_title="알뜰로얄", page_icon=":mobile_phone_off:", layout="wide")
+st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide")
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
-    알뜰로얄에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요.
+    알뜰로얄에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
 """)
 
 
@@ -44,10 +44,10 @@ df = pd.DataFrame({
 })
 
 sorted_df = df.sort_values(by="순위", ascending=True)
-st.dataframe(sorted_df)
+# st.dataframe(sorted_df)
 
 # Example: Highlighting top 3 plans
-st.dataframe(sorted_df.style.apply(lambda x: ['background: lightgreen' if x.name in sorted_df.head(10).index else '' for i in x], axis=1))
+# st.dataframe(sorted_df.style.apply(lambda x: ['background: lightgreen' if x.name in sorted_df.head(10).index else '' for i in x], axis=1))
 
 # # Example: Filter by data limit
 # data_limit = st.slider("Minimum Data Limit (GB)", min_value=0, max_value=int(df['월 데이터 (GB)'].max()), value=10)
@@ -61,9 +61,9 @@ text_search = st.text_input("Search plans by name or other criteria", value="")
 m1 = df["요금제명"].str.contains(text_search, case=False, na=False)  # Adjust column name as necessary
 df_search = df[m1]
 
+N_cards_per_row = 1  # For long cards that span the full width
 # Display the results in a card layout if there is a search query
 if text_search:
-    N_cards_per_row = 1  # For long cards that span the full width
     for n_row, row in df_search.iterrows():
         i = n_row % N_cards_per_row
         if i == 0:
@@ -71,13 +71,13 @@ if text_search:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            st.subheader(f"{row['요금제명']}")
-            st.text(f"Rank: {row['순위']}")
-            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
-            st.text(f"Monthly Fee: {row['월 요금']}₩")
-            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
-            st.text(f"Call Minutes: {row['전화']} mins")
-            st.text(f"SMS: {row['문자']} messages")
+            with st.beta_expander(f"{row['요금제명']}", expanded=True):
+                st.markdown(f"**Rank:** {row['순위']}")
+                st.markdown(f"**Monthly Data (GB):** {row['월 데이터 (GB)']}")
+                st.markdown(f"**Monthly Fee:** {row['월 요금']}₩")
+                st.markdown(f"**Data Speed (Mbps):** {row['데이터 속도 (Mbps)']}")
+                st.markdown(f"**Call Minutes:** {row['전화']} mins")
+                st.markdown(f"**SMS:** {row['문자']} messages")
 
 # Show more button to load additional plans
 if st.button("Show More"):
