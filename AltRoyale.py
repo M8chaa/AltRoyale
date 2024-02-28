@@ -1,10 +1,8 @@
 import streamlit as st
-import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
-import random
 
 def googleSheetConnect():
     CLIENT_SECRETS = st.secrets["GoogleDriveAPISecrets"]
