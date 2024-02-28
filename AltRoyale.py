@@ -25,9 +25,9 @@ def getSheetData():
 
 st.set_page_config(page_title="알뜰로얄", page_icon=":mobile_phone_off:", layout="wide")
 
-st.title("알뜰로얄: The Mobile Data Plan Battle Royale")
+st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
-    Welcome to 알뜰로얄, where we rank the best mobile data plans for your needs! Dive in to find the champion in cost-efficiency, speed, and more.
+    알뜰로얄에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요.
 """)
 
 
@@ -49,14 +49,38 @@ st.dataframe(sorted_df)
 # Example: Highlighting top 3 plans
 st.dataframe(sorted_df.style.apply(lambda x: ['background: lightgreen' if x.name in sorted_df.head(10).index else '' for i in x], axis=1))
 
-# Example: Filter by data limit
-data_limit = st.slider("Minimum Data Limit (GB)", min_value=0, max_value=int(df['월 데이터 (GB)'].max()), value=10)
-filtered_df = sorted_df[sorted_df['월 데이터 (GB)'] >= data_limit]
-st.dataframe(filtered_df)
+# # Example: Filter by data limit
+# data_limit = st.slider("Minimum Data Limit (GB)", min_value=0, max_value=int(df['월 데이터 (GB)'].max()), value=10)
+# filtered_df = sorted_df[sorted_df['월 데이터 (GB)'] >= data_limit]
+# st.dataframe(filtered_df)
+# Implementing search and card display
+# Use a text_input to get the keywords to filter the dataframe
+text_search = st.text_input("Search plans by name or other criteria", value="")
 
-# Show more button
+# Filter the dataframe based on search
+m1 = df["요금제명"].str.contains(text_search, case=False, na=False)  # Adjust column name as necessary
+df_search = df[m1]
+
+# Display the results in a card layout if there is a search query
+if text_search:
+    N_cards_per_row = 1  # For long cards that span the full width
+    for n_row, row in df_search.iterrows():
+        i = n_row % N_cards_per_row
+        if i == 0:
+            st.write("---")  # Separator line between rows of cards
+            cols = st.columns(N_cards_per_row, gap="large")
+        
+        with cols[n_row % N_cards_per_row]:
+            st.subheader(f"{row['요금제명']}")
+            st.text(f"Rank: {row['순위']}")
+            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
+            st.text(f"Monthly Fee: {row['월 요금']}₩")
+            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
+            st.text(f"Call Minutes: {row['전화']} mins")
+            st.text(f"SMS: {row['문자']} messages")
+
+# Show more button to load additional plans
 if st.button("Show More"):
-    # Load 10 more plans
     more_plans = pd.DataFrame({
         '요금제명': ['Plan K', 'Plan L', 'Plan M', 'Plan N', 'Plan O', 'Plan P', 'Plan Q', 'Plan R', 'Plan S', 'Plan T'],
         '순위': [7.0, 8.8, 6.5, 7.2, 9.0, 6.8, 8.5, 9.2, 7.8, 8.0],
@@ -66,6 +90,5 @@ if st.button("Show More"):
         '전화': [120, 180, 160, 200, 220, 140, 200, 250, 180, 160],
         '문자': [200, 280, 250, 180, 160, 300, 180, 220, 280, 250]
     })
-    sorted_df = pd.concat([sorted_df, more_plans])
+    sorted_df = pd.concat([sorted_df, more_plans]).reset_index(drop=True)
     st.dataframe(sorted_df)
-
