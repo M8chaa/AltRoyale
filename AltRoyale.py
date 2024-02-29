@@ -61,6 +61,8 @@ text_search = st.text_input("Search plans by name or other criteria", value="")
 m1 = df["요금제명"].str.contains(text_search, case=False, na=False)  # Adjust column name as necessary
 df_search = df[m1]
 
+import streamlit.components.v1 as components
+
 N_cards_per_row = 1  # For long cards that span the full width
 # Display the results in a card layout if there is a search query
 if text_search:
@@ -71,6 +73,10 @@ if text_search:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
+            if n_row == 0:  # Add gold crown image and golden border to the first card
+                components.html('<img src="gold_crown_image_url" style="position: absolute; top: 10px; left: 10px;">', height=50)
+                st.markdown('<style>div.stButton > button:first-child {border: 2px solid gold;}</style>', unsafe_allow_html=True)
+            
             st.subheader(f"{row['요금제명']}")
             st.text(f"Rank: {row['순위']}")
             st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
@@ -88,6 +94,10 @@ else:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
+            if n_row == 0:  # Add gold crown image and golden border to the first card
+                components.html('<img src="gold_crown_image_url" style="position: absolute; top: 10px; left: 10px;">', height=50)
+                st.markdown('<style>div.stButton > button:first-child {border: 2px solid gold;}</style>', unsafe_allow_html=True)
+            
             st.subheader(f"{row['요금제명']}")
             st.text(f"Rank: {row['순위']}")
             st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
