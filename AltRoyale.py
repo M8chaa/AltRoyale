@@ -71,24 +71,14 @@ if text_search:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            with st.beta_expander(f"{row['요금제명']}", expanded=True):
-                st.markdown(f"**Rank:** {row['순위']}")
-                st.markdown(f"**Monthly Data (GB):** {row['월 데이터 (GB)']}")
-                st.markdown(f"**Monthly Fee:** {row['월 요금']}₩")
-                st.markdown(f"**Data Speed (Mbps):** {row['데이터 속도 (Mbps)']}")
-                st.markdown(f"**Call Minutes:** {row['전화']} mins")
-                st.markdown(f"**SMS:** {row['문자']} messages")
+            st.subheader(f"{row['요금제명']}")
+            st.text(f"Rank: {row['순위']}")
+            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
+            st.text(f"Monthly Fee: {row['월 요금']}₩")
+            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
+            st.text(f"Call Minutes: {row['전화']} mins")
+            st.text(f"SMS: {row['문자']} messages")
 
-# Show more button to load additional plans
-if st.button("Show More"):
-    more_plans = pd.DataFrame({
-        '요금제명': ['Plan K', 'Plan L', 'Plan M', 'Plan N', 'Plan O', 'Plan P', 'Plan Q', 'Plan R', 'Plan S', 'Plan T'],
-        '순위': [7.0, 8.8, 6.5, 7.2, 9.0, 6.8, 8.5, 9.2, 7.8, 8.0],
-        '월 데이터 (GB)': [10, 25, 20, 30, 40, 15, 30, 35, 25, 20],
-        '월 요금': [20, 35, 30, 40, 50, 25, 40, 45, 35, 30],
-        '데이터 속도 (Mbps)': [40, 55, 50, 60, 70, 45, 60, 65, 55, 50],
-        '전화': [120, 180, 160, 200, 220, 140, 200, 250, 180, 160],
-        '문자': [200, 280, 250, 180, 160, 300, 180, 220, 280, 250]
-    })
-    sorted_df = pd.concat([sorted_df, more_plans]).reset_index(drop=True)
+# If there is no search query, display the entire dataframe
+else:
     st.dataframe(sorted_df)
