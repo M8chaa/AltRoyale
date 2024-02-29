@@ -81,4 +81,17 @@ if text_search:
 
 # If there is no search query, display the entire dataframe
 else:
-    st.dataframe(sorted_df)
+    for n_row, row in sorted_df.iterrows():
+        i = n_row % N_cards_per_row
+        if i == 0:
+            st.write("---")  # Separator line between rows of cards
+            cols = st.columns(N_cards_per_row, gap="large")
+        
+        with cols[n_row % N_cards_per_row]:
+            st.subheader(f"{row['요금제명']}")
+            st.text(f"Rank: {row['순위']}")
+            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
+            st.text(f"Monthly Fee: {row['월 요금']}₩")
+            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
+            st.text(f"Call Minutes: {row['전화']} mins")
+            st.text(f"SMS: {row['문자']} messages")
