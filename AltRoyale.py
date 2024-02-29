@@ -73,8 +73,7 @@ if text_search:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            if n_row == 0:  # Add gold crown image and golden border to the first card
-                components.html('<img src="gold_crown_image_url" style="position: absolute; top: 10px; left: 10px;">', height=50)
+            if n_row == 0:  # Add gold crown emoji and golden border to the first card
                 st.markdown('<style>div.stButton > button:first-child {border: 2px solid gold;}</style>', unsafe_allow_html=True)
             
             st.subheader(f"{row['요금제명']}")
@@ -94,8 +93,7 @@ else:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            if n_row == 0:  # Add gold crown image and golden border to the first card
-                components.html('<img src="gold_crown_image_url" style="position: absolute; top: 10px; left: 10px;">', height=50)
+            if n_row == 0:  # Add gold crown emoji and golden border to the first card
                 st.markdown('<style>div.stButton > button:first-child {border: 2px solid gold;}</style>', unsafe_allow_html=True)
             
             st.subheader(f"{row['요금제명']}")
