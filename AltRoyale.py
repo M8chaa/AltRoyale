@@ -20,9 +20,17 @@ df = pd.DataFrame({
 
 sorted_df = df.sort_values(by="순위", ascending=True)
 
-st.subheader("Leaderboard")
-st.markdown('<style>.leaderboard {border-collapse: collapse; width: 100%;} .leaderboard th, .leaderboard td {border: 1px solid #ddd; padding: 8px; text-align: left;} .leaderboard th {background-color: #f2f2f2;}</style>', unsafe_allow_html=True)
-st.markdown('<table class="leaderboard"><tr><th>Rank</th><th>Plan Name</th><th>Monthly Data (GB)</th><th>Monthly Fee</th><th>Data Speed (Mbps)</th><th>Call Minutes</th><th>SMS</th></tr></table>', unsafe_allow_html=True)
+st.subheader("요금제 순위")
 
 for n_row, row in sorted_df.iterrows():
-    st.markdown(f'<table class="leaderboard"><tr><td>{row["순위"]}</td><td>{row["요금제명"]}</td><td>{row["월 데이터 (GB)"]}</td><td>{row["월 요금"]}₩</td><td>{row["데이터 속도 (Mbps)"]}</td><td>{row["전화"]} mins</td><td>{row["문자"]} messages</td></tr></table>', unsafe_allow_html=True)
+    st.markdown(f"""
+        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+            <h3>{row["요금제명"]}</h3>
+            <p><strong>Rank:</strong> {row["순위"]}</p>
+            <p><strong>Monthly Data (GB):</strong> {row["월 데이터 (GB)"]}</p>
+            <p><strong>Monthly Fee:</strong> {row["월 요금"]}₩</p>
+            <p><strong>Data Speed (Mbps):</strong> {row["데이터 속도 (Mbps)"]}</p>
+            <p><strong>Call Minutes:</strong> {row["전화"]} mins</p>
+            <p><strong>SMS:</strong> {row["문자"]} messages</p>
+        </div>
+    """, unsafe_allow_html=True)
