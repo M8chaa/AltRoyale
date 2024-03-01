@@ -106,7 +106,7 @@ df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(f
 # '통화(분)': 1,
 # '문자(건)': 1,
 
-df['할인 점수'] = df['할인 적용 가격'] * -1 + df['월 데이터'].astype(float) * 2 + df['일 데이터'].astype(float) * 1 + df['데이터 속도'].astype(float) * 1 + df['통화(분)'].astype(float) * 1 + df['문자(건)'].astype(float) * 1
+df['할인 점수'] = df['할인 적용 가격'] * -1 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 1 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
 
 
 
