@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
+import re
 
 def googleSheetConnect():
     CLIENT_SECRETS = st.secrets["GoogleDriveAPISecrets"]
@@ -53,8 +54,11 @@ event_price_mapping = {
 # Update '이벤트 가격' column based on '이벤트' column
 df['이벤트 가격'] = df['이벤트'].apply(lambda x: event_price_mapping.get(x, ""))
 
+# Create a regex pattern that matches any of the keys in event_price_mapping
+pattern = '|'.join(map(re.escape, event_price_mapping.keys()))
+
 # Update '이벤트' column based on '이벤트' price mapping
-df['이벤트'] = df['이벤트'].apply(lambda x: next((k for k, v in event_price_mapping.items() if v == x), x))
+df['이벤트'] = df['이벤트'].str.findall(pattern).apply(', '.join)
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
