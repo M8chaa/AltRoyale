@@ -4,8 +4,6 @@ from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
 import re
 import numpy as np
-from googleapiclient.discovery import build
-from oauth2client.service_account import ServiceAccountCredentials
 
 def googleSheetConnect():
     CLIENT_SECRETS = st.secrets["GoogleDriveAPISecrets"]
