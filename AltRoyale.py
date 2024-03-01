@@ -122,10 +122,10 @@ headers = df_new.columns.tolist()
 data = [headers] + data
 
 # Clear the existing values in the range
-sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC2:AF").execute()
+sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AF").execute()
 
 # Update the range with new values
-sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC2", valueInputOption="USER_ENTERED", body={"values": data}).execute()
+sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AF", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
 st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
