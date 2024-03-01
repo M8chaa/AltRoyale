@@ -87,8 +87,13 @@ def calculate_discount_period(row):
     return discount_period
 
 # Remove the comma and the won symbol from '월 요금' column
-df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').astype(float)
+def convert_to_float(val):
+    try:
+        return float(val)
+    except ValueError:
+        return np.nan
 
+df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
 
 df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
