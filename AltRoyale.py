@@ -73,8 +73,13 @@ if text_search:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            if n_row == 0:  # Add gold crown emoji and golden border to the first card
-                st.markdown('<style>div.stButton > button:first-child {border: 2px solid gold;}</style>', unsafe_allow_html=True)
+            if n_row < 3:  # Add medal emojis to the top 3 rank cards
+                if n_row == 0:
+                    st.markdown('🥇')  # Gold medal for the first card
+                elif n_row == 1:
+                    st.markdown('🥈')  # Silver medal for the second card
+                elif n_row == 2:
+                    st.markdown('🥉')  # Bronze medal for the third card
             
             st.subheader(f"{row['요금제명']}")
             st.text(f"Rank: {row['순위']}")
@@ -94,8 +99,13 @@ else:
             cols = st.columns(N_cards_per_row, gap="large")
         
         with cols[n_row % N_cards_per_row]:
-            if n_row == 0:  # Add gold crown emoji to the first card
-                st.markdown('👑')
+            if n_row < 3:  # Add medal emojis to the top 3 rank cards
+                if n_row == 0:
+                    st.markdown('🥇')  # Gold medal for the first card
+                elif n_row == 1:
+                    st.markdown('🥈')  # Silver medal for the second card
+                elif n_row == 2:
+                    st.markdown('🥉')  # Bronze medal for the third card
             
             st.subheader(f"{row['요금제명']}")
             st.text(f"Rank: {row['순위']}")
