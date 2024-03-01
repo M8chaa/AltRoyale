@@ -93,23 +93,21 @@ if text_search:
 else:
     df_display = sorted_df
 
-for n_row, row in df_display.iterrows():
-    i = n_row % N_cards_per_row
-    if i == 0:
-        st.write("---")  # Separator line between rows of cards
-        cols = st.columns(N_cards_per_row, gap="large")
+for n_row, row in df_search.reset_index().iterrows():
+    st.write("---")  # Separator line between cards
+    if n_row < 3:  # Add medal emojis to the top 3 rank cards
+        if n_row == 0:
+            st.markdown('🥇')  # Gold medal for the first card
+        elif n_row == 1:
+            st.markdown('🥈')  # Silver medal for the second card
+        elif n_row == 2:
+            st.markdown('🥉')  # Bronze medal for the third card
 
-    with cols[n_row % N_cards_per_row]:
-        if n_row < 3:  # Add medal emojis to the top 3 rank cards
-            if n_row == 0:
-                st.markdown('🥇')  # Gold medal for the first card
-            elif n_row == 1:
-                st.markdown('🥈')  # Silver medal for the second card
-            elif n_row == 2:
-                st.markdown('🥉')  # Bronze medal for the third card
-
-        st.caption(f"{row['요금제명']} - Rank: {row['순위']} - Monthly Data (GB): {row['월 데이터 (GB)']}")
-        st.markdown(f"**Monthly Fee: {row['월 요금']}₩**")
-        st.markdown(f"*Data Speed (Mbps): {row['데이터 속도 (Mbps)']}*")
-        st.markdown(f"**Call Minutes: {row['전화']} mins**")
-        st.markdown(f"*SMS: {row['문자']} messages*")
+    st.subheader(f"{row['요금제명']}")
+    st.text(f"Rank: {row['순위']}")
+    st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
+    st.text(f"Monthly Fee: {row['월 요금']}₩")
+    st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
+    st.text(f"Call Minutes: {row['전화']} mins")
+    st.text(f"SMS: {row['문자']} messages")
+    st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
