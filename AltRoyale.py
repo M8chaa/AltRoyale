@@ -126,10 +126,6 @@ sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
 # Select only the new columns
 new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
 df_new = df[new_columns]
-sorted_df = df.sort_values(by="할인 점수", ascending=False)
-sorted_df['순위'] = range(1, len(sorted_df) + 1)
-df_new = sorted_df
-
 data = df_new.values.tolist()
 headers = df_new.columns.tolist()
 data = [headers] + data
@@ -161,6 +157,23 @@ request_body = {
                         "sortOrder": "DESCENDING"
                     }
                 ]
+            }
+        },
+        {
+            "repeatCell": {
+                "range": {
+                    "sheetId": 722062841,
+                    "startRowIndex": 1,
+                    "endRowIndex": 1753,
+                    "startColumnIndex": 32,
+                    "endColumnIndex": 33
+                },
+                "cell": {
+                    "userEnteredValue": {
+                        "formulaValue": "=ROW()-1"
+                    }
+                },
+                "fields": "userEnteredValue"
             }
         }
     ]
