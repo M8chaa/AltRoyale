@@ -150,11 +150,11 @@ request_body = {
                     "startRowIndex": 1,
                     "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
                     "startColumnIndex": 0,
-                    "endColumnIndex": 33  # Assuming '할인 점수' is in the AG column, which is the 33rd column
+                    "endColumnIndex": 32  # Assuming '할인 점수' is in the AG column, which is the 33rd column
                 },
                 "sortSpecs": [
                     {
-                        "dimensionIndex": 32,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
+                        "dimensionIndex": 31,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
                         "sortOrder": "DESCENDING"
                     }
                 ]
