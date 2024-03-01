@@ -63,56 +63,26 @@ df_search = df[m1]
 
 import streamlit.components.v1 as components
 
-N_cards_per_row = 3  # Number of cards per row
-cols = st.columns(N_cards_per_row, gap="small")  # Define cols outside the loop
-
 if text_search:
-    for n_row, row in df_search.iterrows():
-        i = n_row % N_cards_per_row
-        if i == 0:
-            st.write("---")  # Separator line between rows of cards
-            cols = st.columns(N_cards_per_row, gap="small")
-        
-        with cols[i]:
-            if n_row < 3:  # Add medal emojis to the top 3 rank cards
-                if n_row == 0:
-                    st.markdown('🥇')  # Gold medal for the first card
-                elif n_row == 1:
-                    st.markdown('🥈')  # Silver medal for the second card
-                elif n_row == 2:
-                    st.markdown('🥉')  # Bronze medal for the third card
-            
-            st.subheader(f"{row['요금제명']}")
-            st.text(f"Rank: {row['순위']}")
-            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
-            st.text(f"Monthly Fee: {row['월 요금']}₩")
-            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
-            st.text(f"Call Minutes: {row['전화']} mins")
-            st.text(f"SMS: {row['문자']} messages")
-            st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
-
-# If there is no search query, display the entire dataframe
+    df_display = df_search.sort_values(by="순위", ascending=True)
 else:
-    for n_row, row in sorted_df.iterrows():
-        i = n_row % N_cards_per_row
-        if i == 0:
-            st.write("---")  # Separator line between rows of cards
-            cols = st.columns(N_cards_per_row, gap="large")
-        
-        with cols[i]:
-            if n_row < 3:  # Add medal emojis to the top 3 rank cards
-                if n_row == 0:
-                    st.markdown('🥇')  # Gold medal for the first card
-                elif n_row == 1:
-                    st.markdown('🥈')  # Silver medal for the second card
-                elif n_row == 2:
-                    st.markdown('🥉')  # Bronze medal for the third card
-            
-            st.subheader(f"{row['요금제명']}")
-            st.text(f"Rank: {row['순위']}")
-            st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
-            st.text(f"Monthly Fee: {row['월 요금']}₩")
-            st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
-            st.text(f"Call Minutes: {row['전화']} mins")
-            st.text(f"SMS: {row['문자']} messages")
-            st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
+    df_display = sorted_df
+
+for n_row, row in df_display.iterrows():
+    st.write("---")  # Separator line between cards
+    if n_row < 3:  # Add medal emojis to the top 3 rank cards
+        if n_row == 0:
+            st.markdown('🥇')  # Gold medal for the first card
+        elif n_row == 1:
+            st.markdown('🥈')  # Silver medal for the second card
+        elif n_row == 2:
+            st.markdown('🥉')  # Bronze medal for the third card
+
+    st.subheader(f"{row['요금제명']}")
+    st.text(f"Rank: {row['순위']}")
+    st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
+    st.text(f"Monthly Fee: {row['월 요금']}₩")
+    st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
+    st.text(f"Call Minutes: {row['전화']} mins")
+    st.text(f"SMS: {row['문자']} messages")
+    st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
