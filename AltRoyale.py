@@ -34,7 +34,7 @@ st.set_page_config(page_title="금순위", page_icon=":crown:", layout="wide")
 # Example data: https://www.moyoplan.com/plans/16030	프리티	음성기본데이터3G	3,850원	3GB	제공안함	제공안함	무제한	무제한	SKT	3G	12개월 이후 14,300원	없음	없음	유료(2,200원)	유료(4,400원)	지원 안 함	모바일 핫스팟: 3GB 제공, 해외 로밍: 신청은 통신사에 문의	소액 결제, 인터넷 결합, 데이터 쉐어링	제공안함	제공안함	3850	3	0	0	100000	100000	196156
 
 # Bring first 20 rows of data in the beginning of app
-df = getSheetData(2, 1725)
+df = getSheetData(2, 53)
 
 # Add columns on df
 # Add new columns on df
@@ -131,43 +131,47 @@ data = df_new.values.tolist()
 headers = df_new.columns.tolist()
 data = [headers] + data
 
-# Clear the existing values in the range
-sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execute()
+# # Clear the existing values in the range
+# sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execute()
 
-# Update the range with new values
-sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
+# # Update the range with new values
+# sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
-# Assuming you've already set up API credentials and sheetID
-spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
-service = googleSheetConnect()
+# # Assuming you've already set up API credentials and sheetID
+# spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
+# service = googleSheetConnect()
 
-request_body = {
-    "requests": [
-        {
-            "sortRange": {
-                "range": {
-                    "sheetId": 722062841,  # Replace with the actual sheet ID if needed; use 0 if you're sorting the first sheet and don't have the specific ID
-                    "startRowIndex": 1,
-                    "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
-                    "startColumnIndex": 0,
-                    "endColumnIndex": 32  # Assuming '할인 점수' is in the AG column, which is the 33rd column
-                },
-                "sortSpecs": [
-                    {
-                        "dimensionIndex": 31,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
-                        "sortOrder": "DESCENDING"
-                    }
-                ]
-            }
-        }
-    ]
-}
+# request_body = {
+#     "requests": [
+#         {
+#             "sortRange": {
+#                 "range": {
+#                     "sheetId": 722062841,  # Replace with the actual sheet ID if needed; use 0 if you're sorting the first sheet and don't have the specific ID
+#                     "startRowIndex": 1,
+#                     "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
+#                     "startColumnIndex": 0,
+#                     "endColumnIndex": 32  # Assuming '할인 점수' is in the AG column, which is the 33rd column
+#                 },
+#                 "sortSpecs": [
+#                     {
+#                         "dimensionIndex": 31,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
+#                         "sortOrder": "DESCENDING"
+#                     }
+#                 ]
+#             }
+#         }
+#     ]
+# }
 
-response = service.spreadsheets().batchUpdate(
-    spreadsheetId=spreadsheet_id,
-    body=request_body
-).execute()
-st.write(response)
+# response = service.spreadsheets().batchUpdate(
+#     spreadsheetId=spreadsheet_id,
+#     body=request_body
+# ).execute()
+# st.write(response)
+
+
+
+
 st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
     금순위에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
