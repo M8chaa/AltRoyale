@@ -167,9 +167,7 @@ response = service.spreadsheets().batchUpdate(
     spreadsheetId=spreadsheet_id,
     body=request_body
 ).execute()
-
-print(response)
-
+st.write(response)
 st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
     금순위에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
