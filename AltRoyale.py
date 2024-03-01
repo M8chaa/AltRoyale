@@ -96,6 +96,7 @@ for n_row, row in df_display.iterrows():
         st.text(f"데이터 속도: {row['데이터 속도']}")
     st.text(f"전화 (분): {row['통화(분)']}")
     st.text(f"문자 (건): {row['문자(건)']}")
-    st.text(f"이벤트: {row['이벤트']}")
-    st.text(f"이벤트 가격: {row['이벤트 가격']}")
+    if row['이벤트'] != "제공안함":
+        st.text(f"이벤트: {row['이벤트']}")
+        st.text(f"이벤트 가격: {row['이벤트 가격']}")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
