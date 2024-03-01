@@ -22,7 +22,7 @@ def getSheetData(start_row, end_row):
     values = result.get('values', [])
 
     # Fetch first row to get header columns
-    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AB1").execute().get('values', [])[0]
+    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AG1").execute().get('values', [])[0]
     data = values[1:]  # Fetch rows excluding header row
     df = pd.DataFrame(data, columns=headers)
     return df
