@@ -45,13 +45,16 @@ df['할인 점수'] = ""  # Initialize with empty strings or any default value
 event_price_mapping = {
     "3대 마트 상품권 3만원": 80000,
     "3대 마트 상품권 2만원": 20000,
-    "밀리의": 9900,
+    "밀리의 서재": 9900,
     "네이버페이 5천원": 5000,
     "매달 네이버페이 포인트 2만5천원": 150000
 }
 
 # Update '이벤트 가격' column based on '이벤트' column
 df['이벤트 가격'] = df['이벤트'].apply(lambda x: event_price_mapping.get(x, ""))
+
+# Update '이벤트' column based on '이벤트' price mapping
+df['이벤트'] = df['이벤트'].apply(lambda x: next((k for k, v in event_price_mapping.items() if v == x), x))
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
