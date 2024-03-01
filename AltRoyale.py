@@ -107,7 +107,7 @@ df['순위'] = ""  # Initialize with empty strings or any default value
 
 # df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
 # df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
-
+df['할인 적용 가격'] = df['할인 적용 가격'].astype(float)
 # # weights
 # # '월 요금': -1,
 # # '월 데이터': 2,
