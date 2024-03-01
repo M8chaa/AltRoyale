@@ -108,6 +108,26 @@ df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(f
 
 df['할인 점수'] = df['할인 적용 가격'] * -1 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 1 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
 
+# Update sheet for the new columns
+serviceInstance = googleSheetConnect()
+sheet = serviceInstance.spreadsheets()
+sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
+
+# Select only the new columns
+new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
+df_new = df[new_columns]
+
+data = df_new.to_dict('records')
+headers = list(df_new.columns)
+headers = [{'key': key, 'value': value} for key, value in zip(headers, headers)]
+data = [list(row.values()) for row in data]
+data = [headers] + data
+
+# Clear the existing values in the range
+sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC2:AF").execute()
+
+# Update the range with new values
+sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC2", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
 
 st.title("금순위: 요금제 비교 사이트")
@@ -150,5 +170,5 @@ for n_row, row in df_display.iterrows():
         st.text(f"이벤트: {row['이벤트']}")
         st.text(f"이벤트 가격: {row['이벤트 가격']}")
     if row['할인 적용 가격'] != "":
-        st.text(f"할인 적용 가격: {row['할인 적용 가격']}")
+        st.text(f"할인 적용 가격: 월 {round(row['할인 적용 가격'])}원")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
