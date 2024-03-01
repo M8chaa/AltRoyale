@@ -4,6 +4,8 @@ from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
 import re
 import numpy as np
+from googleapiclient.discovery import build
+from oauth2client.service_account import ServiceAccountCredentials
 
 def googleSheetConnect():
     CLIENT_SECRETS = st.secrets["GoogleDriveAPISecrets"]
@@ -137,13 +139,38 @@ sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execut
 # Update the range with new values
 sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
-# Sort sheet in descending order of '할인 점수'
-sheet.values().sort(spreadsheetId=sheetID, range="planDataSheet!A1:AG", sortSpecs=[
-    {
-        "dimensionIndex": 32,  # '할인 점수' column
-        "sortOrder": "DESCENDING"
-    }
-]).execute()
+# Assuming you've already set up API credentials and sheetID
+spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
+service = googleSheetConnect()
+
+request_body = {
+    "requests": [
+        {
+            "sortRange": {
+                "range": {
+                    "sheetId": sheetID,  # Replace with the actual sheet ID if needed; use 0 if you're sorting the first sheet and don't have the specific ID
+                    "startRowIndex": 1,
+                    "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
+                    "startColumnIndex": 0,
+                    "endColumnIndex": 33  # Assuming '할인 점수' is in the AG column, which is the 33rd column
+                },
+                "sortSpecs": [
+                    {
+                        "dimensionIndex": 32,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
+                        "sortOrder": "DESCENDING"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+response = service.spreadsheets().batchUpdate(
+    spreadsheetId=spreadsheet_id,
+    body=request_body
+).execute()
+
+print(response)
 
 st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
