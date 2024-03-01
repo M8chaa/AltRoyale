@@ -42,19 +42,8 @@ st.markdown("""
 """)
 
 
-# Assuming 'Plan Name' and 'Score' columns exist
-# df = getSheetData()
-# df = pd.DataFrame({
-#     '요금제명': ['Plan A', 'Plan B', 'Plan C', 'Plan D', 'Plan E', 'Plan F', 'Plan G', 'Plan H', 'Plan I', 'Plan J'],
-#     '점수': [8.5, 9.2, 7.8, 8.0, 9.5, 7.2, 8.8, 9.0, 7.5, 8.3],
-#     '월 데이터 (GB)': [20, 30, 15, 25, 35, 10, 30, 40, 20, 15],
-#     '월 요금': [30, 40, 25, 35, 45, 20, 40, 50, 30, 25],
-#     '데이터 속도 (Mbps)': [50, 60, 40, 55, 65, 30, 60, 70, 50, 45],
-#     '전화': [150, 200, 250, 180, 120, 280, 220, 160, 300, 140],
-#     '문자': [250, 180, 220, 280, 150, 200, 120, 160, 140, 300]
-# })
-
 sorted_df = df.sort_values(by="점수", ascending=False)
+sorted_df['순위'] = range(1, len(sorted_df) + 1)
 text_search = st.text_input("Search plans by name or other criteria", value="")
 
 # Filter the dataframe based on search
@@ -73,10 +62,12 @@ for n_row, row in df_display.iterrows():
     st.write("---")  # Separator line between cards
 
     st.subheader(f"{row['요금제명']}")
-    st.text(f"Rank: {row['점수']}")
-    st.text(f"Monthly Data (GB): {row['월 데이터 (GB)']}")
-    st.text(f"Monthly Fee: {row['월 요금']}₩")
-    st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
-    st.text(f"Call Minutes: {row['전화']} mins")
-    st.text(f"SMS: {row['문자']} messages")
+    st.text(f"순위: {row['순위']}")
+    st.text(f"월 데이터 (GB): {row['월 데이터']}")
+    st.text(f"일 데이터: {row['일 데이터']}")
+    st.text(f"월 요금: {row['월 요금']}₩")
+    if row['데이터 속도 (Mbps)'] != "제공안함":
+        st.text(f"데이터 속도: {row['데이터 속도 (Mbps)']}")
+    st.text(f"전화: {row['전화']} 분")
+    st.text(f"문자: {row['문자']} 건")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
