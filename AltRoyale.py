@@ -117,10 +117,8 @@ sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
 new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
 df_new = df[new_columns]
 
-data = df_new.to_dict('records')
-headers = list(df_new.columns)
-headers = [{'key': key, 'value': value} for key, value in zip(headers, headers)]
-data = [list(row.values()) for row in data]
+data = df_new.values.tolist()
+headers = df_new.columns.tolist()
 data = [headers] + data
 
 # Clear the existing values in the range
@@ -128,7 +126,6 @@ sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC2:AF").execut
 
 # Update the range with new values
 sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC2", valueInputOption="USER_ENTERED", body={"values": data}).execute()
-
 
 st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
