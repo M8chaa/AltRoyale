@@ -83,6 +83,7 @@ if text_search:
             st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
             st.text(f"Call Minutes: {row['전화']} mins")
             st.text(f"SMS: {row['문자']} messages")
+            st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
 
 # If there is no search query, display the entire dataframe
 else:
@@ -103,3 +104,4 @@ else:
             st.text(f"Data Speed (Mbps): {row['데이터 속도 (Mbps)']}")
             st.text(f"Call Minutes: {row['전화']} mins")
             st.text(f"SMS: {row['문자']} messages")
+            st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
