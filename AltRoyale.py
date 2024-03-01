@@ -73,7 +73,7 @@ if text_search:
             st.write("---")  # Separator line between rows of cards
             cols = st.columns(N_cards_per_row, gap="small")
         
-        with cols[n_row % N_cards_per_row]:
+        with cols[i]:
             if n_row < 3:  # Add medal emojis to the top 3 rank cards
                 if n_row == 0:
                     st.markdown('🥇')  # Gold medal for the first card
@@ -99,7 +99,7 @@ else:
             st.write("---")  # Separator line between rows of cards
             cols = st.columns(N_cards_per_row, gap="large")
         
-        with cols[n_row % N_cards_per_row]:
+        with cols[i]:
             if n_row < 3:  # Add medal emojis to the top 3 rank cards
                 if n_row == 0:
                     st.markdown('🥇')  # Gold medal for the first card
