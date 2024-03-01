@@ -17,7 +17,7 @@ def getSheetData(start_row, end_row):
     serviceInstance = googleSheetConnect()
     sheet = serviceInstance.spreadsheets()
     sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
-    range_name = f"planDataSheet!A{start_row}:AG{end_row}"
+    range_name = f"planDataSheet!A{start_row}:AB{end_row}"
     result = sheet.values().get(spreadsheetId=sheetID, range=range_name).execute()
     values = result.get('values', [])
 
