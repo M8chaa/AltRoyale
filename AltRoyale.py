@@ -23,6 +23,8 @@ def getSheetData(start_row, end_row):
     df = pd.DataFrame(data, columns=headers)
     return df
 
+# Get sheet
+
 # Example headers: url	MVNO	요금제명	월 요금	월 데이터	일 데이터	데이터 속도	통화(분)	문자(건)	통신사	망종류	할인정보	통신사 약정	번호이동 수수료	일반 유심 배송	NFC 유심 배송	eSim	지원	미지원	이벤트	카드 할인	월 요금 (숫자)	월 데이터 (숫자)	일 데이터 (숫자)	데이터 속도 (숫자)	통화(분) (숫자)	문자(건) (숫자)	점수
 # Example data: https://www.moyoplan.com/plans/16030	프리티	음성기본데이터3G	3,850원	3GB	제공안함	제공안함	무제한	무제한	SKT	3G	12개월 이후 14,300원	없음	없음	유료(2,200원)	유료(4,400원)	지원 안 함	모바일 핫스팟: 3GB 제공, 해외 로밍: 신청은 통신사에 문의	소액 결제, 인터넷 결합, 데이터 쉐어링	제공안함	제공안함	3850	3	0	0	100000	100000	196156
 
