@@ -14,14 +14,15 @@ def googleSheetConnect():
 def getSheetData(start_row, end_row):
     serviceInstance = googleSheetConnect()
     sheet = serviceInstance.spreadsheets()
-    sheetID = "planDataSheet"
-    range_name = f"planDataSheet!A{start_row}:G{end_row}"
+    sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
+    range_name = f"planDataSheet!A{start_row}:AB{end_row}"
     result = sheet.values().get(spreadsheetId=sheetID, range=range_name).execute()
     values = result.get('values', [])
     headers = values[0]
     data = values[1:]  # Fetch rows excluding header row
     df = pd.DataFrame(data, columns=headers)
     return df
+
 
 # Get sheet
 
