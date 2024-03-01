@@ -44,7 +44,7 @@ st.markdown("""
 
 sorted_df = df.sort_values(by="점수", ascending=False)
 sorted_df['순위'] = range(1, len(sorted_df) + 1)
-text_search = st.text_input("Search plans by name or other criteria", value="")
+text_search = st.text_input("요금제 이름으로 찾으세요", value="")
 
 # Filter the dataframe based on search
 m1 = df["요금제명"].str.contains(text_search, case=False, na=False)  # Adjust column name as necessary
@@ -59,8 +59,9 @@ else:
     df_display = sorted_df
 
 for n_row, row in df_display.iterrows():
-    st.write("---")  # Separator line between cards
-
+    st.markdown("---")  # Separator line between cards
+    st.markdown(f"<div style='border:1px solid #ccc; border-radius:5px; padding:10px;'>", unsafe_allow_html=True)
+    
     st.subheader(f"{row['요금제명']}")
     st.text(f"순위: {row['순위']}")
     if row['월 데이터'] != "제공안함":
@@ -72,4 +73,5 @@ for n_row, row in df_display.iterrows():
         st.text(f"데이터 속도: {row['데이터 속도']}")
     st.text(f"전화: {row['통화(분)']} 분")
     st.text(f"문자: {row['문자(건)']} 건")
-    st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
