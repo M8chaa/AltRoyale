@@ -214,14 +214,14 @@ for n_row, row in df_display.iterrows():
     if row['데이터 속도'] != "제공안함":
         data_text += f"+ 소진 시 {row['데이터 속도']}"
     if data_text:
-        st.markdown(f"<div style='margin-top:-15px;'><b>{data_text.strip()}</b></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='margin-top:-10px;'><small>월 요금: {row['월 요금']}</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:-15px; font-size:16px;'><b>{data_text.strip()}</b></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top:10px; font-size:16px;'><small>월 요금: {row['월 요금']}</small></div>", unsafe_allow_html=True)
     
-    st.markdown(f"<div style='margin-top:-10px;'><small>전화 (분): {row['통화(분)']}</small></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='margin-top:-10px;'><small>문자 (건): {row['문자(건)']}</small></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top:10px;'><small>전화 (분): {row['통화(분)']}</small></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top:10px;'><small>문자 (건): {row['문자(건)']}</small></div>", unsafe_allow_html=True)
     if row['이벤트'] != "제공안함":
-        st.markdown(f"<div style='margin-top:-10px;'><small>이벤트: {row['이벤트']}</small></div>", unsafe_allow_html=True)
-        st.markdown(f"<div style='margin-top:-10px;'><small>이벤트 가격: {row['이벤트 가격']}</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:10px;'><small>이벤트: {row['이벤트']}</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:10px;'><small>이벤트 가격: {row['이벤트 가격']}</small></div>", unsafe_allow_html=True)
     if row['할인 적용 가격'] != "":
-        st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:10px;'><small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small></div>", unsafe_allow_html=True)
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
