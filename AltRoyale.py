@@ -215,13 +215,13 @@ for n_row, row in df_display.iterrows():
         data_text += f"+ 소진 시 {row['데이터 속도']}"
     if data_text:
         st.markdown(f"**{data_text.strip()}**")
-    st.text(f"월 요금: {row['월 요금']}")
+    st.markdown(f"<small>월 요금: {row['월 요금']}</small>", unsafe_allow_html=True)
     
-    st.text(f"전화 (분): {row['통화(분)']}")
-    st.text(f"문자 (건): {row['문자(건)']}")
+    st.markdown(f"<small>전화 (분): {row['통화(분)']}</small>", unsafe_allow_html=True)
+    st.markdown(f"<small>문자 (건): {row['문자(건)']}</small>", unsafe_allow_html=True)
     if row['이벤트'] != "제공안함":
-        st.text(f"이벤트: {row['이벤트']}")
-        st.text(f"이벤트 가격: {row['이벤트 가격']}")
+        st.markdown(f"<small>이벤트: {row['이벤트']}</small>", unsafe_allow_html=True)
+        st.markdown(f"<small>이벤트 가격: {row['이벤트 가격']}</small>", unsafe_allow_html=True)
     if row['할인 적용 가격'] != "":
-        st.text(f"할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원")
+        st.markdown(f"<small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small>", unsafe_allow_html=True)
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
