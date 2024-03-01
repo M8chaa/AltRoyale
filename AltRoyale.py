@@ -64,14 +64,14 @@ df_search = df[m1]
 import streamlit.components.v1 as components
 
 N_cards_per_row = 3  # Number of cards per row
-cols = st.columns(N_cards_per_row, gap="large")  # Define cols outside the loop
+cols = st.columns(N_cards_per_row, gap="small")  # Define cols outside the loop
 
 if text_search:
     for n_row, row in df_search.iterrows():
         i = n_row % N_cards_per_row
         if i == 0:
             st.write("---")  # Separator line between rows of cards
-            cols = st.columns(N_cards_per_row, gap="large")
+            cols = st.columns(N_cards_per_row, gap="small")
         
         with cols[n_row % N_cards_per_row]:
             if n_row < 3:  # Add medal emojis to the top 3 rank cards
