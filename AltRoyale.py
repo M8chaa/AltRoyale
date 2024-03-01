@@ -197,8 +197,15 @@ else:
 for n_row, row in df_display.iterrows():
     st.write("---")  # Separator line between cards
 
+    if row['순위'] == 1:
+        st.markdown(":first_place_medal: 순위: 1")
+    elif row['순위'] == 2:
+        st.markdown(":second_place_medal: 순위: 2")
+    elif row['순위'] == 3:
+        st.markdown(":third_place_medal: 순위: 3")
+    else:
+        st.text(f"순위: {row['순위']}")
     st.subheader(f"{row['요금제명']}")
-    st.text(f"순위: {row['순위']}")
     data_text = ""
     if row['월 데이터'] != "제공안함":
         data_text += f"월 {row['월 데이터']} "
