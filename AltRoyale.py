@@ -68,7 +68,7 @@ for n_row, row in df_display.iterrows():
     if row['일 데이터'] != "제공안함":
         st.text(f"일 데이터: {row['일 데이터']}")
     st.text(f"월 요금: {row['월 요금']}")
-    if row['데이터 속도 (Mbps)'] != "제공안함":
+    if row['데이터 속도'] != "제공안함":
         st.text(f"데이터 속도: {row['데이터 속도']}")
     st.text(f"전화: {row['전화']} 분")
     st.text(f"문자: {row['문자']} 건")
