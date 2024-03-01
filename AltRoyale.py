@@ -63,8 +63,8 @@ df_search = df[m1]
 
 import streamlit.components.v1 as components
 
-N_cards_per_row = 1  # For long cards that span the full width
-# Display the results in a card layout if there is a search query
+N_cards_per_row = 3  # Number of cards per row
+
 if text_search:
     for n_row, row in df_search.iterrows():
         i = n_row % N_cards_per_row
