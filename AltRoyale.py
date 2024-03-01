@@ -74,7 +74,7 @@ df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping
 # Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
 # On 할인정보 column, extract n from n개월 이후
 def calculate_discount_period(row):
-    discount_period = 0
+    discount_period = 1
     if row['할인정보'] != '제공안함':
         discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
     if row['이벤트'] in event_discount_period_mapping:
