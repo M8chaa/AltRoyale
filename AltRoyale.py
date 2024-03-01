@@ -27,7 +27,7 @@ def getSheetData(start_row, end_row):
     df = pd.DataFrame(data, columns=headers)
     return df
 
-st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide")
+st.set_page_config(page_title="금순위", page_icon=":crown:", layout="wide")
 # Get sheet
 
 # Example headers: url	MVNO	요금제명	월 요금	월 데이터	일 데이터	데이터 속도	통화(분)	문자(건)	통신사	망종류	할인정보	통신사 약정	번호이동 수수료	일반 유심 배송	NFC 유심 배송	eSim	지원	미지원	이벤트	카드 할인	월 요금 (숫자)	월 데이터 (숫자)	일 데이터 (숫자)	데이터 속도 (숫자)	통화(분) (숫자)	문자(건) (숫자)	점수
@@ -42,6 +42,7 @@ df['이벤트 가격'] = ""  # Initialize with empty strings or any default valu
 df['할인 기간'] = ""  # Initialize with empty strings or any default value
 df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
 df['할인 점수'] = ""  # Initialize with empty strings or any default value
+df['순위'] = ""  # Initialize with empty strings or any default value
 
 # Define a dictionary to map the events to their prices
 event_price_mapping = {
@@ -97,19 +98,31 @@ df['할인 기간'] = df['할인 기간'].astype(float)
 
 df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
-st.title("알뜰로얄: 요금제 비교 사이트")
+# weights
+# '월 요금': -1,
+# '월 데이터': 2,
+# '일 데이터': 1,
+# '데이터 속도': 1,
+# '통화(분)': 1,
+# '문자(건)': 1,
+
+df['할인 점수'] = df['할인 적용 가격'] * -1 + df['월 데이터'].astype(float) * 2 + df['일 데이터'].astype(float) * 1 + df['데이터 속도'].astype(float) * 1 + df['통화(분)'].astype(float) * 1 + df['문자(건)'].astype(float) * 1
+
+
+
+st.title("금순위: 요금제 비교 사이트")
 st.markdown("""
-    알뜰로얄에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
+    금순위에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
 """)
 
 
-sorted_df = df.sort_values(by="점수", ascending=False)
+sorted_df = df.sort_values(by="할인 점수", ascending=False)
 sorted_df['순위'] = range(1, len(sorted_df) + 1)
 text_search = st.text_input("요금제 이름으로 찾으세요", value="")
 
 # Filter the dataframe based on search
 m1 = df["요금제명"].str.contains(text_search, case=False, na=False)  # Adjust column name as necessary
-df_search = df[m1]
+df_search = sorted_df[m1]
 
 import streamlit.components.v1 as components
 
