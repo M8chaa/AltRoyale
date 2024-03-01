@@ -58,7 +58,7 @@ df['이벤트 가격'] = df['이벤트'].apply(lambda x: event_price_mapping.get
 pattern = '|'.join(map(re.escape, event_price_mapping.keys()))
 
 # Update '이벤트' column based on '이벤트' price mapping
-df['이벤트'] = df['이벤트'].str.findall(pattern).apply(', '.join)
+df['이벤트'] = df['이벤트'].apply(lambda x: ', '.join(re.findall(pattern, x)) if x != '제공안함' else x)
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
