@@ -93,7 +93,7 @@ def convert_to_float(val):
     except ValueError:
         return np.nan
 
-df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
+# df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
 
 df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
@@ -106,7 +106,7 @@ df['이벤트 가격'] = df['이벤트 가격'].astype(float)
 df['할인 기간'] = df['할인 기간'].astype(float)
 
 
-df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
+df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 # weights
 # '월 요금': -1,
