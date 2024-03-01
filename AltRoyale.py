@@ -42,7 +42,7 @@ df = getSheetData(2, 53)
 # df['할인 기간'] = ""  # Initialize with empty strings or any default value
 # df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
 # df['할인 점수'] = ""  # Initialize with empty strings or any default value
-# df['순위'] = ""  # Initialize with empty strings or any default value
+df['순위'] = ""  # Initialize with empty strings or any default value
 
 # # Define a dictionary to map the events to their prices
 # event_price_mapping = {
