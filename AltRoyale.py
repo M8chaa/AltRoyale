@@ -64,6 +64,7 @@ df_search = df[m1]
 import streamlit.components.v1 as components
 
 N_cards_per_row = 3  # Number of cards per row
+cols = st.columns(N_cards_per_row, gap="large")  # Define cols outside the loop
 
 if text_search:
     for n_row, row in df_search.iterrows():
