@@ -23,7 +23,7 @@ def getSheetData(start_row, end_row):
     df = pd.DataFrame(data, columns=headers)
     return df
 
-
+st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide")
 # Get sheet
 
 # Example headers: url	MVNO	요금제명	월 요금	월 데이터	일 데이터	데이터 속도	통화(분)	문자(건)	통신사	망종류	할인정보	통신사 약정	번호이동 수수료	일반 유심 배송	NFC 유심 배송	eSim	지원	미지원	이벤트	카드 할인	월 요금 (숫자)	월 데이터 (숫자)	일 데이터 (숫자)	데이터 속도 (숫자)	통화(분) (숫자)	문자(건) (숫자)	점수
@@ -32,7 +32,7 @@ def getSheetData(start_row, end_row):
 # Bring first 20 rows of data in the beginning of app
 df = getSheetData(2, 21)
 
-st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide")
+
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
