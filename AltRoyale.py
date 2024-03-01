@@ -74,12 +74,13 @@ df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping
 # Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
 # On 할인정보 column, extract n from n개월 이후
 def calculate_discount_period(row):
+    discount_period = 0
     if row['할인정보'] != '제공안함':
-        return re.findall(r'(\d+)개월 이후', row['할인정보'])[0]
-    elif row['이벤트'] in event_discount_period_mapping:
-        return event_discount_period_mapping[row['이벤트']]
-    else:
-        return row['월 요금']
+        discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
+    if row['이벤트'] in event_discount_period_mapping:
+        event_discount_period = event_discount_period_mapping[row['이벤트']]
+        discount_period = max(discount_period, event_discount_period)
+    return discount_period
 
 # Remove the comma and the won symbol from '월 요금' column
 df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').astype(float)
@@ -167,5 +168,5 @@ for n_row, row in df_display.iterrows():
         st.text(f"이벤트: {row['이벤트']}")
         st.text(f"이벤트 가격: {row['이벤트 가격']}")
     if row['할인 적용 가격'] != "":
-        st.text(f"할인 적용 가격: 월 {round(row['할인 적용 가격'])}원")
+        st.text(f"할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
