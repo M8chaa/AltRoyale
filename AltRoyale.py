@@ -79,6 +79,10 @@ def calculate_discount_period(row):
     else:
         return row['월 요금']
 
+# Remove the comma and the won symbol from '월 요금' column
+df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').astype(float)
+
+
 df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
 # Convert empty strings to NaN
@@ -88,8 +92,6 @@ df['할인 기간'] = df['할인 기간'].replace('', np.nan)
 # Now you can convert these columns to float
 df['이벤트 가격'] = df['이벤트 가격'].astype(float)
 df['할인 기간'] = df['할인 기간'].astype(float)
-# Remove the comma and the won symbol from '월 요금' column
-df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').astype(float)
 
 
 df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
