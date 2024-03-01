@@ -95,13 +95,7 @@ else:
 
 for n_row, row in df_display.iterrows():
     st.write("---")  # Separator line between cards
-    if n_row < 3:  # Add medal emojis to the top 3 rank cards
-        if n_row == 0:
-            st.markdown('🥇')  # Gold medal for the first card
-        elif n_row == 1:
-            st.markdown('🥈')  # Silver medal for the second card
-        elif n_row == 2:
-            st.markdown('🥉')  # Bronze medal for the third card
+
 
     st.subheader(f"{row['요금제명']}")
     st.text(f"Rank: {row['순위']}")
@@ -111,3 +105,11 @@ for n_row, row in df_display.iterrows():
     st.text(f"Call Minutes: {row['전화']} mins")
     st.text(f"SMS: {row['문자']} messages")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
+
+    if n_row < 3:  # Add medal emojis to the top 3 rank cards
+        if n_row == 0:
+            st.markdown('🥇')  # Gold medal for the first card
+        elif n_row == 1:
+            st.markdown('🥈')  # Silver medal for the second card
+        elif n_row == 2:
+            st.markdown('🥉')  # Bronze medal for the third card
