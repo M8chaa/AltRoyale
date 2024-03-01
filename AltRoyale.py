@@ -3,6 +3,7 @@ import pandas as pd
 from Google import Create_Service
 from streamlit_gsheets import GSheetsConnection
 import re
+import numpy as np
 
 def googleSheetConnect():
     CLIENT_SECRETS = st.secrets["GoogleDriveAPISecrets"]
@@ -80,6 +81,13 @@ def calculate_discount_period(row):
 
 df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
+# Convert empty strings to NaN
+df['이벤트 가격'] = df['이벤트 가격'].replace('', np.nan)
+df['할인 기간'] = df['할인 기간'].replace('', np.nan)
+
+# Now you can convert these columns to float
+df['이벤트 가격'] = df['이벤트 가격'].astype(float)
+df['할인 기간'] = df['할인 기간'].astype(float)
 df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 st.title("알뜰로얄: 요금제 비교 사이트")
