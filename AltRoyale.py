@@ -201,13 +201,13 @@ for n_row, row in df_display.iterrows():
     st.text(f"순위: {row['순위']}")
     data_text = ""
     if row['월 데이터'] != "제공안함":
-        data_text += f"**월 {row['월 데이터']}** "
+        data_text += f"월 {row['월 데이터']} "
     if row['일 데이터'] != "제공안함":
-        data_text += f"**+ 일 {row['일 데이터']}** "
+        data_text += f"+ 일 {row['일 데이터']} "
     if row['데이터 속도'] != "제공안함":
-        data_text += f"**+ 소진 시 {row['데이터 속도']}**"
+        data_text += f"+ 소진 시 {row['데이터 속도']}"
     if data_text:
-        st.text(data_text.strip())
+        st.markdown(f"**{data_text.strip()}**")
     st.text(f"월 요금: {row['월 요금']}")
     
     st.text(f"전화 (분): {row['통화(분)']}")
