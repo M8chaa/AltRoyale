@@ -34,7 +34,24 @@ st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide"
 # Bring first 20 rows of data in the beginning of app
 df = getSheetData(2, 21)
 
+# Add columns on df
+# Add new columns on df
+df['이벤트 가격'] = ""  # Initialize with empty strings or any default value
+df['할인 기간'] = ""  # Initialize with empty strings or any default value
+df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
+df['할인 점수'] = ""  # Initialize with empty strings or any default value
 
+# Define a dictionary to map the events to their prices
+event_price_mapping = {
+    "3대 마트 상품권 3만원": 80000,
+    "3대 마트 상품권 2만원": 20000,
+    "밀리의": 9900,
+    "네이버페이 5천원": 5000,
+    "매달 네이버페이 포인트 2만5천원": 150000
+}
+
+# Update '이벤트 가격' column based on '이벤트' column
+df['이벤트 가격'] = df['이벤트'].apply(lambda x: event_price_mapping.get(x, ""))
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
@@ -70,6 +87,8 @@ for n_row, row in df_display.iterrows():
     st.text(f"월 요금: {row['월 요금']}")
     if row['데이터 속도'] != "제공안함":
         st.text(f"데이터 속도: {row['데이터 속도']}")
-    st.text(f"전화: {row['통화(분)']} 분")
-    st.text(f"문자: {row['문자(건)']} 건")
+    st.text(f"전화 (분): {row['통화(분)']}")
+    st.text(f"문자 (건): {row['문자(건)']}")
+    st.text(f"이벤트: {row['이벤트']}")
+    st.text(f"이벤트 가격: {row['이벤트 가격']}")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
