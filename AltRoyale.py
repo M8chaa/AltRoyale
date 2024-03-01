@@ -33,7 +33,7 @@ st.set_page_config(page_title="알뜰로얄", page_icon=":crown:", layout="wide"
 # Example data: https://www.moyoplan.com/plans/16030	프리티	음성기본데이터3G	3,850원	3GB	제공안함	제공안함	무제한	무제한	SKT	3G	12개월 이후 14,300원	없음	없음	유료(2,200원)	유료(4,400원)	지원 안 함	모바일 핫스팟: 3GB 제공, 해외 로밍: 신청은 통신사에 문의	소액 결제, 인터넷 결합, 데이터 쉐어링	제공안함	제공안함	3850	3	0	0	100000	100000	196156
 
 # Bring first 20 rows of data in the beginning of app
-df = getSheetData(3, 20)
+df = getSheetData(2, 51)
 
 # Add columns on df
 # Add new columns on df
@@ -51,6 +51,14 @@ event_price_mapping = {
     "매달 네이버페이 포인트 2만5천원": 150000
 }
 
+event_discount_period_mapping = {
+    "3대 마트 상품권 3만원": 6,
+    "3대 마트 상품권 2만원": 6,
+    "밀리의 서재": 1,
+    "네이버페이 5천원": 3,
+    "매달 네이버페이 포인트 2만5천원": 6
+}
+
 # Update '이벤트 가격' column based on '이벤트' column
 df['이벤트 가격'] = df['이벤트'].apply(lambda x: event_price_mapping.get(x, ""))
 
@@ -59,6 +67,20 @@ pattern = '|'.join(map(re.escape, event_price_mapping.keys()))
 
 # Update '이벤트' column based on '이벤트' price mapping
 df['이벤트'] = df['이벤트'].apply(lambda x: ', '.join(re.findall(pattern, x)) if x != '제공안함' else x)
+
+# Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
+# On 할인정보 column, extract n from n개월 이후
+def calculate_discount_period(row):
+    if row['할인정보'] != '제공안함':
+        return re.findall(r'(\d+)개월 이후', row['할인정보'])[0]
+    elif row['이벤트'] in event_discount_period_mapping:
+        return event_discount_period_mapping[row['이벤트']]
+    else:
+        return row['월 요금']
+
+df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
+
+df['할인 적용 가격'] = df['월 요금'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 st.title("알뜰로얄: 요금제 비교 사이트")
 st.markdown("""
@@ -99,4 +121,6 @@ for n_row, row in df_display.iterrows():
     if row['이벤트'] != "제공안함":
         st.text(f"이벤트: {row['이벤트']}")
         st.text(f"이벤트 가격: {row['이벤트 가격']}")
+    if row['할인 적용 가격'] != "":
+        st.text(f"할인 적용 가격: {row['할인 적용 가격']}")
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
