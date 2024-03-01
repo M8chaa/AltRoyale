@@ -58,20 +58,23 @@ if text_search:
 else:
     df_display = sorted_df
 
-for n_row, row in df_display.iterrows():
-    st.markdown("---")  # Separator line between cards
-    st.markdown(f"<div style='border:1px solid #ccc; border-radius:5px; padding:10px;'>", unsafe_allow_html=True)
-    
-    st.subheader(f"{row['요금제명']}")
-    st.text(f"순위: {row['순위']}")
-    if row['월 데이터'] != "제공안함":
-        st.text(f"월 데이터: {row['월 데이터']}")
-    if row['일 데이터'] != "제공안함":
-        st.text(f"일 데이터: {row['일 데이터']}")
-    st.text(f"월 요금: {row['월 요금']}")
-    if row['데이터 속도'] != "제공안함":
-        st.text(f"데이터 속도: {row['데이터 속도']}")
-    st.text(f"전화: {row['통화(분)']} 분")
-    st.text(f"문자: {row['문자(건)']} 건")
-    
-    st.markdown("</div>", unsafe_allow_html=True)
+rows_per_card = 3
+for n_row in range(0, len(df_display), rows_per_card):
+    cols = st.beta_columns(rows_per_card)
+    for i in range(rows_per_card):
+        if n_row + i < len(df_display):
+            row = df_display.iloc[n_row + i]
+            with cols[i]:
+                st.markdown(f"<div style='border:1px solid #ccc; border-radius:5px; padding:10px;'>", unsafe_allow_html=True)
+                st.subheader(f"{row['요금제명']}")
+                st.text(f"순위: {row['순위']}")
+                if row['월 데이터'] != "제공안함":
+                    st.text(f"월 데이터: {row['월 데이터']}")
+                if row['일 데이터'] != "제공안함":
+                    st.text(f"일 데이터: {row['일 데이터']}")
+                st.text(f"월 요금: {row['월 요금']}")
+                if row['데이터 속도'] != "제공안함":
+                    st.text(f"데이터 속도: {row['데이터 속도']}")
+                st.text(f"전화: {row['통화(분)']} 분")
+                st.text(f"문자: {row['문자(건)']} 건")
+                st.markdown("</div>", unsafe_allow_html=True)
