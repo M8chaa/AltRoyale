@@ -215,7 +215,7 @@ for n_row, row in df_display.iterrows():
         data_text += f"+ 소진 시 {row['데이터 속도']}"
     if data_text:
         st.markdown(f"<div style='margin-top:-15px;'><b>{data_text.strip()}</b></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='margin-top:-15px;'><small><b>월 요금:</b> {row['월 요금']}</small></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top:-5px;'><small><b>월 요금:</b> {row['월 요금']}</small></div>", unsafe_allow_html=True)
     
     st.markdown(f"<div style='margin-top:-5px;'><small>전화 (분): {row['통화(분)']}</small></div>", unsafe_allow_html=True)
     st.markdown(f"<div style='margin-top:-10px;'><small>문자 (건): {row['문자(건)']}</small></div>", unsafe_allow_html=True)
