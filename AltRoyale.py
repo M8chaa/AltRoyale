@@ -93,7 +93,7 @@ if text_search:
 else:
     df_display = sorted_df
 
-for n_row, row in df_search.reset_index().iterrows():
+for n_row, row in df_display.iterrows():
     st.write("---")  # Separator line between cards
     if n_row < 3:  # Add medal emojis to the top 3 rank cards
         if n_row == 0:
