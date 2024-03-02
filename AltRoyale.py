@@ -81,9 +81,9 @@ def calculate_discount_period(row):
     discount_period = 1
     if row['할인정보'] != '제공안함':
         discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
-    if row['이벤트'] in event_discount_period_mapping:
-        event_discount_period = event_discount_period_mapping[row['이벤트']]
-        discount_period = max(discount_period, event_discount_period)
+    event_discount_periods = [event_discount_period_mapping.get(i, 0) for i in row['이벤트'].split(', ')]
+    if event_discount_periods:
+        discount_period = max(discount_period, max(event_discount_periods))
     return discount_period
 
 # # Remove the comma and the won symbol from '월 요금' column
