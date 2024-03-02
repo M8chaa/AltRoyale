@@ -222,5 +222,5 @@ for n_row, row in df_display.iterrows():
     if row['이벤트'] != "제공안함":
         st.markdown(f"<div style='margin-top:-10px;'><small>이벤트: {row['이벤트']}</small></div>", unsafe_allow_html=True)
     if row['할인 적용 가격'] != "":
-        st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {['할인 적용 가격']}원</small></div>", unsafe_allow_html=True)
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
