@@ -106,7 +106,7 @@ df = getSheetData(2, 53)
 # df['할인 기간'] = df['할인 기간'].astype(float)
 
 # df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
-df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
+# df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 # # weights
 # # '월 요금': -1,
