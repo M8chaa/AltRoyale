@@ -126,7 +126,6 @@ sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
 # Select only the new columns
 new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
 df_new = df[new_columns]
-df_new = sorted_df
 
 data = df_new.values.tolist()
 headers = df_new.columns.tolist()
