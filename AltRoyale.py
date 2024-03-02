@@ -44,35 +44,35 @@ df = getSheetData(2, 53)
 # df['할인 점수'] = ""  # Initialize with empty strings or any default value
 # df['순위'] = ""  # Initialize with empty strings or any default value
 
-# # Define a dictionary to map the events to their prices
-# event_price_mapping = {
-#     "3대 마트 상품권 3만원": 30000,
-#     "3대 마트 상품권 2만원": 20000,
-#     "SKY 쿠폰 2만원": 20000,
-#     "SKY 쿠폰 1만원": 10000,
-#     "밀리의 서재": 9900,
-#     "네이버페이 5천원": 5000,
-#     "매달 네이버페이 포인트 2만5천원": 150000
-# }
+# Define a dictionary to map the events to their prices
+event_price_mapping = {
+    "3대 마트 상품권 3만원": 30000,
+    "3대 마트 상품권 2만원": 20000,
+    "SKY 쿠폰 2만원": 20000,
+    "SKY 쿠폰 1만원": 10000,
+    "밀리의 서재": 9900,
+    "네이버페이 5천원": 5000,
+    "매달 네이버페이 포인트 2만5천원": 150000
+}
 
-# event_discount_period_mapping = {
-#     "3대 마트 상품권 3만원": 6,
-#     "3대 마트 상품권 2만원": 6,
-#     "SKY 쿠폰 2만원": 6,
-#     "SKY 쿠폰 1만원": 6,
-#     "밀리의 서재": 1,
-#     "네이버페이 5천원": 3,
-#     "매달 네이버페이 포인트 2만5천원": 6
-# }
+event_discount_period_mapping = {
+    "3대 마트 상품권 3만원": 6,
+    "3대 마트 상품권 2만원": 6,
+    "SKY 쿠폰 2만원": 6,
+    "SKY 쿠폰 1만원": 6,
+    "밀리의 서재": 1,
+    "네이버페이 5천원": 3,
+    "매달 네이버페이 포인트 2만5천원": 6
+}
 
-# # Create a regex pattern that matches any of the keys in event_price_mapping
-# pattern = '|'.join(map(re.escape, event_price_mapping.keys()))
+# Create a regex pattern that matches any of the keys in event_price_mapping
+pattern = '|'.join(map(re.escape, event_price_mapping.keys()))
 
-# # Update '이벤트' column based on '이벤트' price mapping
-# df['이벤트'] = df['이벤트'].apply(lambda x: ', '.join(re.findall(pattern, x)) if x != '제공안함' else x)
+# Update '이벤트' column based on '이벤트' price mapping
+df['이벤트'] = df['이벤트'].apply(lambda x: ', '.join(re.findall(pattern, x)) if x != '제공안함' else x)
 
-# # Update '이벤트 가격' column based on '이벤트' column
-# df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping.get(i, 0) for i in x.split(', ')))
+# Update '이벤트 가격' column based on '이벤트' column
+df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping.get(i, 0) for i in x.split(', ')))
 
 
 # # Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
