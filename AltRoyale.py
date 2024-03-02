@@ -178,8 +178,8 @@ st.markdown("""
 """)
 
 
-sorted_df = df.sort_values(by="할인 점수", ascending=False)
-sorted_df['순위'] = range(1, len(sorted_df) + 1)
+sorted_df = df.sort_values(by="순위", ascending=False)
+# sorted_df['순위'] = range(1, len(sorted_df) + 1)
 text_search = st.text_input("요금제 이름으로 찾으세요", value="")
 
 # Filter the dataframe based on search
@@ -190,7 +190,7 @@ import streamlit.components.v1 as components
 
 N_cards_per_row = 3
 if text_search:
-    df_display = df_search.sort_values(by="점수", ascending=False)
+    df_display = df_search.sort_values(by="순위", ascending=False)
 else:
     df_display = sorted_df
 
