@@ -109,14 +109,14 @@ df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
 df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 # weights
-# '월 요금': -1,
-# '월 데이터': 2,
-# '일 데이터': 1,
-# '데이터 속도': 1,
-# '통화(분)': 1,
-# '문자(건)': 1,
+# '월 요금': -2, 만단위
+# '월 데이터': 2, 백단위
+# '일 데이터': 1, 백단위
+# '데이터 속도': 1,십단위
+# '통화(분)': 1, 백단위, 무제한 => 만
+# '문자(건)': 1, 백단위, 무제한 =>
 
-df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
+df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 0.1 + df['문자(건) (숫자)'].astype(float) * 0.1
 
 # Update sheet for the new columns
 serviceInstance = googleSheetConnect()
@@ -196,8 +196,8 @@ st.markdown("""
 
 df['순위'] = df['순위'].astype(int) 
 df['할인 적용 가격'] = df['할인 적용 가격'].astype(int)
-sorted_df = df.sort_values(by="순위", ascending=True)
-# sorted_df['순위'] = range(1, len(sorted_df) + 1)
+sorted_df = df.sort_values(by="할인 적용 가격", ascending=True)
+sorted_df['순위'] = range(1, len(sorted_df) + 1)
 text_search = st.text_input("요금제 이름으로 찾으세요", value="")
 
 # Filter the dataframe based on search
@@ -208,7 +208,7 @@ import streamlit.components.v1 as components
 
 N_cards_per_row = 3
 if text_search:
-    df_display = df_search.sort_values(by="순위", ascending=False)
+    df_display = df_search.sort_values(by="할인 적용 가격", ascending=False)
 else:
     df_display = sorted_df
 
