@@ -177,7 +177,7 @@ st.markdown("""
     금순위에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
 """)
 
-
+df['순위'] = df['순위'].astype(int) 
 sorted_df = df.sort_values(by="순위", ascending=True)
 # sorted_df['순위'] = range(1, len(sorted_df) + 1)
 text_search = st.text_input("요금제 이름으로 찾으세요", value="")
