@@ -27,7 +27,7 @@ def getSheetData(start_row, end_row):
     df = pd.DataFrame(data, columns=headers)
     return df
 
-st.set_page_config(page_title="금순위", page_icon=":crown:", layout="wide")
+st.set_page_config(page_title="금수니", page_icon=":crown:", layout="wide")
 # Get sheet
 
 # Example headers: url	MVNO	요금제명	월 요금	월 데이터	일 데이터	데이터 속도	통화(분)	문자(건)	통신사	망종류	할인정보	통신사 약정	번호이동 수수료	일반 유심 배송	NFC 유심 배송	eSim	지원	미지원	이벤트	카드 할인	월 요금 (숫자)	월 데이터 (숫자)	일 데이터 (숫자)	데이터 속도 (숫자)	통화(분) (숫자)	문자(건) (숫자)	점수
@@ -189,9 +189,9 @@ data = [headers] + data
 
 
 
-st.title("금순위: 요금제 비교 사이트")
+st.title("금수니: 요금제 비교 사이트")
 st.markdown("""
-    금순위에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요
+    금수니에 오신 것을 환영합니다. 알뜰 요금제를 비교하고 최적의 요금제를 찾아보세요!
 """)
 
 df['순위'] = df['순위'].astype(int) 
