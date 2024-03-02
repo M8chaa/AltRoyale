@@ -17,12 +17,12 @@ def getSheetData(start_row, end_row):
     serviceInstance = googleSheetConnect()
     sheet = serviceInstance.spreadsheets()
     sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
-    range_name = f"planDataSheet!A{start_row}:AG{end_row}"
+    range_name = f"planDataSheet!A{start_row}:AB{end_row}"
     result = sheet.values().get(spreadsheetId=sheetID, range=range_name).execute()
     values = result.get('values', [])
 
     # Fetch first row to get header columns
-    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AG1").execute().get('values', [])[0]
+    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AB1").execute().get('values', [])[0]
     data = values[1:]  # Fetch rows excluding header row
     df = pd.DataFrame(data, columns=headers)
     return df
@@ -36,13 +36,13 @@ st.set_page_config(page_title="금순위", page_icon=":crown:", layout="wide")
 # Bring first 20 rows of data in the beginning of app
 df = getSheetData(2, 53)
 
-# # Add columns on df
-# # Add new columns on df
-# df['이벤트 가격'] = ""  # Initialize with empty strings or any default value
-# df['할인 기간'] = ""  # Initialize with empty strings or any default value
-# df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
-# df['할인 점수'] = ""  # Initialize with empty strings or any default value
-# df['순위'] = ""  # Initialize with empty strings or any default value
+# Add columns on df
+# Add new columns on df
+df['이벤트 가격'] = ""  # Initialize with empty strings or any default value
+df['할인 기간'] = ""  # Initialize with empty strings or any default value
+df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
+df['할인 점수'] = ""  # Initialize with empty strings or any default value
+df['순위'] = ""  # Initialize with empty strings or any default value
 
 # Define a dictionary to map the events to their prices
 event_price_mapping = {
@@ -75,114 +75,101 @@ df['이벤트'] = df['이벤트'].apply(lambda x: ', '.join(re.findall(pattern, 
 df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping.get(i, 0) for i in x.split(', ')))
 
 
-# # Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
-# # On 할인정보 column, extract n from n개월 이후
-# def calculate_discount_period(row):
-#     discount_period = 1
-#     if row['할인정보'] != '제공안함':
-#         discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
-#     if row['이벤트'] in event_discount_period_mapping:
-#         event_discount_period = event_discount_period_mapping[row['이벤트']]
-#         discount_period = max(discount_period, event_discount_period)
-#     return discount_period
+# Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
+# On 할인정보 column, extract n from n개월 이후
+def calculate_discount_period(row):
+    discount_period = 1
+    if row['할인정보'] != '제공안함':
+        discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
+    if row['이벤트'] in event_discount_period_mapping:
+        event_discount_period = event_discount_period_mapping[row['이벤트']]
+        discount_period = max(discount_period, event_discount_period)
+    return discount_period
 
-# # Remove the comma and the won symbol from '월 요금' column
-# def convert_to_float(val):
-#     try:
-#         return float(val)
-#     except ValueError:
-#         return np.nan
+# Remove the comma and the won symbol from '월 요금' column
+def convert_to_float(val):
+    try:
+        return float(val)
+    except ValueError:
+        return np.nan
 
-# # df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
+# df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
 
-# df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
+df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
-# # Convert empty strings to NaN
-# df['이벤트 가격'] = df['이벤트 가격'].replace('', np.nan)
-# df['할인 기간'] = df['할인 기간'].replace('', np.nan)
+# Convert empty strings to NaN
+df['이벤트 가격'] = df['이벤트 가격'].replace('', np.nan)
+df['할인 기간'] = df['할인 기간'].replace('', np.nan)
 
-# # Now you can convert these columns to float
-# df['이벤트 가격'] = df['이벤트 가격'].astype(float)
-# df['할인 기간'] = df['할인 기간'].astype(float)
+# Now you can convert these columns to float
+df['이벤트 가격'] = df['이벤트 가격'].astype(float)
+df['할인 기간'] = df['할인 기간'].astype(float)
 
-# df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
-# df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
+df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
+df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
-# # weights
-# # '월 요금': -1,
-# # '월 데이터': 2,
-# # '일 데이터': 1,
-# # '데이터 속도': 1,
-# # '통화(분)': 1,
-# # '문자(건)': 1,
+# weights
+# '월 요금': -1,
+# '월 데이터': 2,
+# '일 데이터': 1,
+# '데이터 속도': 1,
+# '통화(분)': 1,
+# '문자(건)': 1,
 
-# df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
+df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
 
-# # Update sheet for the new columns
-# serviceInstance = googleSheetConnect()
-# sheet = serviceInstance.spreadsheets()
-# sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
+# Update sheet for the new columns
+serviceInstance = googleSheetConnect()
+sheet = serviceInstance.spreadsheets()
+sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
 
-# # Select only the new columns
-# new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
-# df_new = df[new_columns]
-# data = df_new.values.tolist()
-# headers = df_new.columns.tolist()
-# data = [headers] + data
+# Select only the new columns
+new_columns = ['이벤트 가격', '할인 기간', '할인 적용 가격', '할인 점수', '순위']
+df_new = df[new_columns]
+sorted_df = df.sort_values(by="할인 점수", ascending=False)
+sorted_df['순위'] = range(1, len(sorted_df) + 1)
+df_new = sorted_df
 
-# # Clear the existing values in the range
-# sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execute()
+data = df_new.values.tolist()
+headers = df_new.columns.tolist()
+data = [headers] + data
 
-# # Update the range with new values
-# sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
+# Clear the existing values in the range
+sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execute()
 
-# # Assuming you've already set up API credentials and sheetID
-# spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
-# service = googleSheetConnect()
+# Update the range with new values
+sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
-# request_body = {
-#     "requests": [
-#         {
-#             "sortRange": {
-#                 "range": {
-#                     "sheetId": 722062841,  # Replace with the actual sheet ID if needed; use 0 if you're sorting the first sheet and don't have the specific ID
-#                     "startRowIndex": 1,
-#                     "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
-#                     "startColumnIndex": 0,
-#                     "endColumnIndex": 32  # Assuming '할인 점수' is in the AG column, which is the 33rd column
-#                 },
-#                 "sortSpecs": [
-#                     {
-#                         "dimensionIndex": 31,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
-#                         "sortOrder": "DESCENDING"
-#                     }
-#                 ]
-#             }
-#         },
-#         {
-#             "repeatCell": {
-#                 "range": {
-#                     "sheetId": 722062841,
-#                     "startRowIndex": 1,
-#                     "endRowIndex": 1753,
-#                     "startColumnIndex": 32,
-#                     "endColumnIndex": 33
-#                 },
-#                 "cell": {
-#                     "userEnteredValue": {
-#                         "formulaValue": "=ROW()-1"
-#                     }
-#                 },
-#                 "fields": "userEnteredValue"
-#             }
-#         }
-#     ]
-# }
+# Assuming you've already set up API credentials and sheetID
+spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
+service = googleSheetConnect()
 
-# response = service.spreadsheets().batchUpdate(
-#     spreadsheetId=spreadsheet_id,
-#     body=request_body
-# ).execute()
+request_body = {
+    "requests": [
+        {
+            "sortRange": {
+                "range": {
+                    "sheetId": 722062841,  # Replace with the actual sheet ID if needed; use 0 if you're sorting the first sheet and don't have the specific ID
+                    "startRowIndex": 1,
+                    "endRowIndex": 1753,  # Adjust this based on the actual number of rows in your sheet
+                    "startColumnIndex": 0,
+                    "endColumnIndex": 32  # Assuming '할인 점수' is in the AG column, which is the 33rd column
+                },
+                "sortSpecs": [
+                    {
+                        "dimensionIndex": 31,  # '할인 점수' column index (AG column is the 33rd column, but indexing starts from 0)
+                        "sortOrder": "DESCENDING"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+response = service.spreadsheets().batchUpdate(
+    spreadsheetId=spreadsheet_id,
+    body=request_body
+).execute()
 # st.write(response)
 
 
@@ -238,6 +225,5 @@ for n_row, row in df_display.iterrows():
     if row['이벤트'] != "제공안함":
         st.markdown(f"<div style='margin-top:-10px;'><small>이벤트: {row['이벤트']}</small></div>", unsafe_allow_html=True)
     if row['할인 적용 가격'] != "":
-        # st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small></div>", unsafe_allow_html=True)
-            st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {row['할인 적용 가격']}원</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:-10px;'><small>할인 적용 가격: 최대 월 {round(row['할인 적용 가격'])}원</small></div>", unsafe_allow_html=True)
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
