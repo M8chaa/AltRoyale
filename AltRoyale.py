@@ -17,12 +17,12 @@ def getSheetData(start_row, end_row):
     serviceInstance = googleSheetConnect()
     sheet = serviceInstance.spreadsheets()
     sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
-    range_name = f"planDataSheet!A{start_row}:AB{end_row}"
+    range_name = f"planDataSheet!A{start_row}:AG{end_row}"
     result = sheet.values().get(spreadsheetId=sheetID, range=range_name).execute()
     values = result.get('values', [])
 
     # Fetch first row to get header columns
-    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AB1").execute().get('values', [])[0]
+    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AG1").execute().get('values', [])[0]
     data = values[1:]  # Fetch rows excluding header row
     df = pd.DataFrame(data, columns=headers)
     return df
@@ -38,11 +38,11 @@ df = getSheetData(2, 53)
 
 # Add columns on df
 # Add new columns on df
-df['이벤트 가격'] = ""  # Initialize with empty strings or any default value
-df['할인 기간'] = ""  # Initialize with empty strings or any default value
-df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
-df['할인 점수'] = ""  # Initialize with empty strings or any default value
-df['순위'] = ""  # Initialize with empty strings or any default value
+# df['이벤트 가격'] = ""  # Initialize with empty strings or any default value
+# df['할인 기간'] = ""  # Initialize with empty strings or any default value
+# df['할인 적용 가격'] = ""  # Initialize with empty strings or any default value
+# df['할인 점수'] = ""  # Initialize with empty strings or any default value
+# df['순위'] = ""  # Initialize with empty strings or any default value
 
 # Define a dictionary to map the events to their prices
 event_price_mapping = {
@@ -77,36 +77,36 @@ df['이벤트 가격'] = df['이벤트'].apply(lambda x: sum(event_price_mapping
 
 # Update '할인 적용 가격' column based on '할인기간' & '이벤트 가격' columns
 # On 할인정보 column, extract n from n개월 이후
-def calculate_discount_period(row):
-    discount_period = 1
-    if row['할인정보'] != '제공안함':
-        discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
-    if row['이벤트'] in event_discount_period_mapping:
-        event_discount_period = event_discount_period_mapping[row['이벤트']]
-        discount_period = max(discount_period, event_discount_period)
-    return discount_period
+# def calculate_discount_period(row):
+#     discount_period = 1
+#     if row['할인정보'] != '제공안함':
+#         discount_period = int(re.findall(r'(\d+)개월 이후', row['할인정보'])[0])
+#     if row['이벤트'] in event_discount_period_mapping:
+#         event_discount_period = event_discount_period_mapping[row['이벤트']]
+#         discount_period = max(discount_period, event_discount_period)
+#     return discount_period
 
-# Remove the comma and the won symbol from '월 요금' column
-def convert_to_float(val):
-    try:
-        return float(val)
-    except ValueError:
-        return np.nan
+# # Remove the comma and the won symbol from '월 요금' column
+# def convert_to_float(val):
+#     try:
+#         return float(val)
+#     except ValueError:
+#         return np.nan
 
 # df['월 요금'] = df['월 요금'].str.replace(',', '').str.replace('원', '').apply(convert_to_float)
 
-df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
+# df['할인 기간'] = df.apply(calculate_discount_period, axis=1)
 
 # Convert empty strings to NaN
-df['이벤트 가격'] = df['이벤트 가격'].replace('', np.nan)
-df['할인 기간'] = df['할인 기간'].replace('', np.nan)
+# df['이벤트 가격'] = df['이벤트 가격'].replace('', np.nan)
+# df['할인 기간'] = df['할인 기간'].replace('', np.nan)
 
-# Now you can convert these columns to float
-df['이벤트 가격'] = df['이벤트 가격'].astype(float)
-df['할인 기간'] = df['할인 기간'].astype(float)
+# # Now you can convert these columns to float
+# df['이벤트 가격'] = df['이벤트 가격'].astype(float)
+# df['할인 기간'] = df['할인 기간'].astype(float)
 
-df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
-df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
+# df['월 요금 (숫자)'] = df['월 요금 (숫자)'].astype(float)
+# df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격'].astype(float) / df['할인 기간'].astype(float))
 
 # weights
 # '월 요금': -1,
@@ -116,7 +116,7 @@ df['할인 적용 가격'] = df['월 요금 (숫자)'] - (df['이벤트 가격']
 # '통화(분)': 1,
 # '문자(건)': 1,
 
-df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
+# df['할인 점수'] = df['할인 적용 가격'] * -2 + df['월 데이터 (숫자)'].astype(float) * 2 + df['일 데이터 (숫자)'].astype(float) * 1 + df['데이터 속도 (숫자)'].astype(float) * 10000 + df['통화(분) (숫자)'].astype(float) * 1 + df['문자(건) (숫자)'].astype(float) * 1
 
 # # Update sheet for the new columns
 # serviceInstance = googleSheetConnect()
