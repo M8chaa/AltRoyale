@@ -234,8 +234,8 @@ for n_row, row in df_display.iterrows():
     if data_text:
         st.markdown(f"<div style='margin-top:-15px;'><medium><b>{data_text.strip()}</b></div>", unsafe_allow_html=True)
     if row['할인 적용 가격'] != "":
-        st.markdown(f"<div style='margin-top:-10px;'><medium>환산 가격: 최대 월 {round((row['할인 적용 가격']))}원</medium></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='margin-top:-5px;'><small><b>월 요금:</b> {row['월 요금']}</small></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top:-5px;'><medium>환산 가격: <b>최대 월 {round((row['할인 적용 가격']))}원</b></medium></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='margin-top:-5px;'><small>월 요금: {row['월 요금']}</small></div>", unsafe_allow_html=True)
     
     st.markdown(f"<div style='margin-top:-5px;'><small>전화 (분): {row['통화(분)']}</small></div>", unsafe_allow_html=True)
     st.markdown(f"<div style='margin-top:-10px;'><small>문자 (건): {row['문자(건)']}</small></div>", unsafe_allow_html=True)
