@@ -212,7 +212,21 @@ if text_search:
 else:
     df_display = sorted_df
 
-for n_row, row in df_display.iterrows():
+# Define the number of rows per page and the total number of pages
+rows_per_page = 10
+total_pages = len(df_display) // rows_per_page
+if len(df_display) % rows_per_page > 0:
+    total_pages += 1  # Add one page if there are any remaining rows
+
+# Use a slider or a selectbox to select the page number
+page_number = st.slider('Select page number:', min_value=1, max_value=total_pages, value=1)
+
+# Calculate the start and end indices for the rows on this page
+start = (page_number - 1) * rows_per_page
+end = start + rows_per_page
+
+
+for n_row, row in df_display.iloc[start:end]:
     st.write("---")  # Separator line between cards
 
     if row['순위'] == 1:
