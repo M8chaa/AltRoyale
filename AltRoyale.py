@@ -226,7 +226,7 @@ start = (page_number - 1) * rows_per_page
 end = start + rows_per_page
 
 
-for n_row, row in df_display.iloc[start:end]:
+for n_row, row in df_display.iloc[start:end].iterrows():
     st.write("---")  # Separator line between cards
 
     if row['순위'] == 1:
