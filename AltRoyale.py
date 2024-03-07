@@ -214,26 +214,19 @@ else:
 
 # Define the number of rows per page and the total number of pages
 rows_per_page = 10
-# total_pages = len(df_display) // rows_per_page
-# Use a session state variable to keep track of the current page
-if 'current_page' not in st.session_state:
-    st.session_state.current_page = 1
 
-# if len(df_display) % rows_per_page > 0:
-#     total_pages += 1  # Add one page if there are any remaining rows
+# if 'current_page' not in st.session_state:
+#     st.session_state.current_page = 1
 
-# # Use a slider or a selectbox to select the page number
-# page_number = st.slider('Select page number:', min_value=1, max_value=total_pages, value=1)
+if 'loaded_rows' not in st.session_state:
+    st.session_state.loaded_rows = rows_per_page  # Initially load one page of rows
 
-# # Calculate the start and end indices for the rows on this page
-# start = (page_number - 1) * rows_per_page
-# end = start + rows_per_page
     
 # Calculate the start and end indices for the rows on this page
 start = (st.session_state.current_page - 1) * rows_per_page
 end = start + rows_per_page
 
-for n_row, row in df_display.iloc[start:end].iterrows():
+for n_row, row in df_display.iloc[:st.session_state.loaded_rows].iterrows():
     st.write("---")  # Separator line between cards
 
     if row['순위'] == 1:
@@ -267,4 +260,4 @@ for n_row, row in df_display.iloc[start:end].iterrows():
 
 # Add a "Load More" button
 if st.button('Load More'):
-    st.session_state.current_page += 1
+    st.session_state.loaded_rows += rows_per_page
