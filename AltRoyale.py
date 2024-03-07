@@ -221,10 +221,6 @@ rows_per_page = 10
 if 'loaded_rows' not in st.session_state:
     st.session_state.loaded_rows = rows_per_page  # Initially load one page of rows
 
-    
-# Calculate the start and end indices for the rows on this page
-start = (st.session_state.current_page - 1) * rows_per_page
-end = start + rows_per_page
 
 for n_row, row in df_display.iloc[:st.session_state.loaded_rows].iterrows():
     st.write("---")  # Separator line between cards
