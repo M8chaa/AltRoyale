@@ -259,5 +259,5 @@ for n_row, row in df_display.iloc[:st.session_state.loaded_rows].iterrows():
     st.markdown('<style>.css-1aumxhk {border: 1px solid #ccc; border-radius: 5px; padding: 10px;}</style>', unsafe_allow_html=True)
 
 # Add a "Load More" button
-if st.button('Load More'):
+if st.button('Load More', use_container_width=True):
     st.session_state.loaded_rows += rows_per_page
