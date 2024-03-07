@@ -219,8 +219,8 @@ rows_per_page = 10
 if 'current_page' not in st.session_state:
     st.session_state.current_page = 1
 
-if len(df_display) % rows_per_page > 0:
-    total_pages += 1  # Add one page if there are any remaining rows
+# if len(df_display) % rows_per_page > 0:
+#     total_pages += 1  # Add one page if there are any remaining rows
 
 # # Use a slider or a selectbox to select the page number
 # page_number = st.slider('Select page number:', min_value=1, max_value=total_pages, value=1)
