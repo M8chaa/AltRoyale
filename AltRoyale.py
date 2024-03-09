@@ -17,12 +17,12 @@ def getSheetData(start_row, end_row):
     serviceInstance = googleSheetConnect()
     sheet = serviceInstance.spreadsheets()
     sheetID = "12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0"
-    range_name = f"planDataSheet!A{start_row}:AG{end_row}"
+    range_name = f"Copy of planDataSheet!A{start_row}:AG{end_row}"
     result = sheet.values().get(spreadsheetId=sheetID, range=range_name).execute()
     values = result.get('values', [])
 
     # Fetch first row to get header columns
-    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"planDataSheet!A1:AG1").execute().get('values', [])[0]
+    headers = serviceInstance.spreadsheets().values().get(spreadsheetId=sheetID, range=f"Copy of planDataSheet!A1:AG1").execute().get('values', [])[0]
     data = values[1:]  # Fetch rows excluding header row
     df = pd.DataFrame(data, columns=headers)
     return df
@@ -132,10 +132,10 @@ headers = df_new.columns.tolist()
 data = [headers] + data
 
 # # Clear the existing values in the range
-# sheet.values().clear(spreadsheetId=sheetID, range="planDataSheet!AC1:AG").execute()
+# sheet.values().clear(spreadsheetId=sheetID, range="Copy of planDataSheet!AC1:AG").execute()
 
 # # Update the range with new values
-# sheet.values().update(spreadsheetId=sheetID, range="planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
+# sheet.values().update(spreadsheetId=sheetID, range="Copy of planDataSheet!AC1:AG", valueInputOption="USER_ENTERED", body={"values": data}).execute()
 
 # # Assuming you've already set up API credentials and sheetID
 # spreadsheet_id = '12s6sKkpWkHdsx_2kxFRim3M7-VTEQBmbG4OPgFrG0n0'  # Please replace this with your actual spreadsheet ID
